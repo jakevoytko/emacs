@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-14 14:32:29 jvoytko>
+; Time-stamp: <2016-07-14 21:02:07 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load machine-specific customization.
@@ -173,4 +173,4 @@
 
 ;; Git
 ;; Find files quickly in a repository.
-(global-set-key (kbd "C-x f") 'find-file-in-repository)
+(global-set-key (kbd "C-x f") 'find-file-in-project)
