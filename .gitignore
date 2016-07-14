@@ -1,0 +1,7 @@
+*~
+.gitignore
+elpa/
+machine.el
+auto-save-list
+elpa
+snippets
