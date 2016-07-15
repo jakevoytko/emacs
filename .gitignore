@@ -5,3 +5,4 @@ machine.el
 auto-save-list
 elpa
 snippets
+ac-comphist.dat
