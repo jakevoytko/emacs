@@ -1,11 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-15 15:23:33 jvoytko>
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Load machine-specific customization.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load-file "~/.emacs.d/machine.el")
+; Time-stamp: <2016-07-15 21:36:55 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -25,9 +20,49 @@
 
 (package-initialize)
 
-;;
-;; TODO: Install missing packages automatically for new systems.
-;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Install packages if bootstrapping.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(unless (file-exists-p "~/.emacs.d/elpa/archives/melpa")
+  (package-refresh-contents))
+
+(mapc
+ (lambda (package)
+   (if (not (package-installed-p package))
+       (package-install package)))
+ '(
+   ac-js2
+   ac-php
+   ac-php-core
+   auto-complete
+   company
+   company-go
+   company-php
+   dash
+   f
+   find-file-in-project
+   go-eldoc
+   go-mode
+   ivy
+   js2-mode
+   js2-refactor
+   markdown-mode
+   multiple-cursors
+   php-mode
+   popup
+   s
+   scss-mode
+   simple-httpd
+   skewer-mode
+   tern
+   xcscope
+   yasnippet))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load machine-specific customization.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(load-file "~/.emacs.d/machine.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deviation from default behaviors
