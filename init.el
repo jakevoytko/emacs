@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-14 21:02:07 jvoytko>
+; Time-stamp: <2016-07-15 15:23:33 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load machine-specific customization.
@@ -146,8 +146,16 @@
          (* 60 60 5)
          t 
          (lambda ()
-           (cd jv-php-path)
+           (message "Remaking PHP tags on a timer")
+           (switch-to-buffer (find-file-noselect jv-php-path))
            (ac-php-remake-tags-all)))))
+
+;; SCSS mode.
+;; Requires `sass` to be on $PATH.
+(require 'scss-mode)
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(add-hook 'scss-mode-hook (lambda() (flymake-mode t)))
 
 ;; Golang
 
