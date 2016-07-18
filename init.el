@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-15 21:36:55 jvoytko>
+; Time-stamp: <2016-07-18 23:53:14 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -52,6 +52,7 @@
    php-mode
    popup
    s
+   scala-mode
    scss-mode
    simple-httpd
    skewer-mode
