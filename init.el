@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-18 23:53:14 jvoytko>
+; Time-stamp: <2016-07-18 23:54:18 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -49,6 +49,7 @@
    js2-refactor
    markdown-mode
    multiple-cursors
+   mustache-mode
    php-mode
    popup
    s
