@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-19 21:31:08 jvoytko>
+; Time-stamp: <2016-07-20 15:53:24 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -61,6 +61,9 @@
    xcscope
    yasnippet))
 
+;; Allow emacsclient to connect.
+(server-start)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load machine-specific customization.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -88,10 +91,11 @@
 ;; I don't like dynamic fill columns.
 (setq-default fill-column 80)
 
-;; Tabbing behavior (prefer spaces, indent 4).
+;; Tabbing behavior (prefer spaces, indent 4). Highlight bad whitespace.
 (setq-default c-basic-offset 4)
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
+(setq-default show-trailing-whitespace t)
 
 ;; Don't mess with final newlines in files, to avoid unnecessary diffs.
 (setq-default require-final-newline nil)
@@ -117,6 +121,9 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;; Hide default splash screen.
+(setq-default inhibit-startup-screen t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Modes and mode customization.
