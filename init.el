@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-18 23:54:18 jvoytko>
+; Time-stamp: <2016-07-19 21:31:08 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -88,9 +88,9 @@
 ;; I don't like dynamic fill columns.
 (setq-default fill-column 80)
 
-;; Tabbing behavior (prefer spaces, indent 2).
-(setq-default c-basic-offset 2)
-(setq-default tab-width 2)
+;; Tabbing behavior (prefer spaces, indent 4).
+(setq-default c-basic-offset 4)
+(setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 
 ;; Don't mess with final newlines in files, to avoid unnecessary diffs.
