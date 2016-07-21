@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-20 15:53:24 jvoytko>
+; Time-stamp: <2016-07-21 14:20:22 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -88,8 +88,9 @@
 ;; Enable Time-stamp functions.
 (add-hook 'write-file-hooks 'time-stamp)
 
-;; I don't like dynamic fill columns.
+;; Stuff involving columns.
 (setq-default fill-column 80)
+(column-number-mode t)
 
 ;; Tabbing behavior (prefer spaces, indent 4). Highlight bad whitespace.
 (setq-default c-basic-offset 4)
@@ -193,6 +194,10 @@
            (message "Remaking PHP tags on a timer")
            (switch-to-buffer (find-file-noselect jv-php-path))
            (ac-php-remake-tags-all)))))
+
+;; Mustache mode.
+(require 'mustache-mode)
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode))
 
 ;; SCSS mode.
 ;; Requires `sass` to be on $PATH.
