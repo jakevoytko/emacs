@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-21 14:20:22 jvoytko>
+; Time-stamp: <2016-07-21 20:24:19 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -182,18 +182,24 @@
              (company-mode t)
              (add-to-list 'company-backends 'company-ac-php-backend )))
 
+
 ;; Regenerate PHP ctags whenever emacs is idle for 5 hours.
-(when (and 
+(defun jv-redo-php-tags (path)
+  (switch-to-buffer (find-file-noselect path))
+  (ac-php-remake-tags-all))
+
+(when (and
        (bound-and-true-p jv-php-path)
        (not (boundp 'jv-ac-tags-timer)))
-  (setq jv-ac-tags-timer 
-        (run-with-idle-timer 
+  (setq jv-ac-tags-timer
+        (run-with-idle-timer
          (* 60 60 5)
-         t 
+         t
          (lambda ()
            (message "Remaking PHP tags on a timer")
-           (switch-to-buffer (find-file-noselect jv-php-path))
-           (ac-php-remake-tags-all)))))
+           (if (listp jv-php-path)
+               (dolist jv-php-path jv-redo-php-tags)
+             (jv-redo-php-tags jv-php-path))))))
 
 ;; Mustache mode.
 (require 'mustache-mode)
