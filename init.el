@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-07-21 20:24:19 jvoytko>
+; Time-stamp: <2016-07-22 14:31:51 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -198,7 +198,7 @@
          (lambda ()
            (message "Remaking PHP tags on a timer")
            (if (listp jv-php-path)
-               (dolist jv-php-path jv-redo-php-tags)
+               (dolist (path jv-php-path) (jv-redo-php-tags path))
              (jv-redo-php-tags jv-php-path))))))
 
 ;; Mustache mode.
