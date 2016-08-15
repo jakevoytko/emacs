@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-08-03 15:11:18 jvoytko>
+; Time-stamp: <2016-08-15 18:57:02 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -38,7 +38,6 @@
    auto-complete
    company
    company-go
-   company-php
    dash
    f
    find-file-in-project
@@ -175,12 +174,7 @@
              (setq ac-sources  '(ac-source-php ) )
              (yas-global-mode 1)
              (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
-             (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)
-
-             ;; company mode with ac-php backend
-             (require 'company-php)
-             (company-mode t)
-             (add-to-list 'company-backends 'company-ac-php-backend )))
+             (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)))
 
 
 ;; Regenerate PHP ctags whenever emacs is idle for 5 hours.
