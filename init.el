@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-08-15 18:57:02 jvoytko>
+; Time-stamp: <2016-08-29 20:47:16 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -40,7 +40,6 @@
    company-go
    dash
    f
-   find-file-in-project
    go-eldoc
    go-mode
    ivy
@@ -136,6 +135,10 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+;; Org mode.
+(setq org-todo-keywords
+      '((sequence "TODO" "IN-PROGRESS" "|" "DONE")))
+
 ;; JS2 mode.
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (add-hook 'js2-mode-hook 'ac-js2-mode)
@@ -228,9 +231,8 @@
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
-;; Git
-;; Find files quickly in a repository.
-(global-set-key (kbd "C-x f") 'find-file-in-project)
+;; Find files quickly across my whole system.
+(global-set-key (kbd "C-x f") 'locate)
 
 ;; Taken from Steve Yegge's .emacs
 ;; someday might want to rotate windows if more than 2 of them
