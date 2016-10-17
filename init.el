@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-08-29 20:47:16 jvoytko>
+; Time-stamp: <2016-10-17 17:36:04 jvoytko>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -176,6 +176,8 @@
              (require 'ac-php)
              (setq ac-sources  '(ac-source-php ) )
              (yas-global-mode 1)
+             (set-fill-column 100)
+             (define-key yas-minor-mode-map (kbd "\C-c TAB") 'yas-expand)
              (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)
              (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)))
 
@@ -252,3 +254,15 @@
            (set-window-start w1 s2)
            (set-window-start w2 s1)))))
 (global-set-key (kbd "C-c \\") 'swap-windows)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/todo.org"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
