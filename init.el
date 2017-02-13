@@ -39,6 +39,7 @@
    company
    company-go
    dash
+   exec-path-from-shell
    f
    go-eldoc
    go-mode
