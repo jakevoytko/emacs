@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2016-10-17 17:36:04 jvoytko>
+; Time-stamp: <2017-02-14 10:32:07 jake>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -76,11 +76,6 @@
 (if (system-is-mac)
     (setq ns-command-modifier 'meta))
 
-;; Set the environment correctly on Mac.
-(when (system-is-mac)
-  (exec-path-from-shell-copy-env "GOPATH")
-  (exec-path-from-shell-initialize))
-
 ;; This is almost always a mistake.
 (global-unset-key (kbd "C-x C-c"))
 
@@ -92,8 +87,8 @@
 (column-number-mode t)
 
 ;; Tabbing behavior (prefer spaces, indent 4). Highlight bad whitespace.
-(setq-default c-basic-offset 4)
-(setq-default tab-width 4)
+(setq-default c-basic-offset 2)
+(setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
 
@@ -153,15 +148,15 @@
 ;; tern.js
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 
-;; ;; Go
-;; (require 'go-mode)
+;; Go
+(require 'go-mode)
 
-;; ;; go-eldoc
-;; (require 'go-eldoc)
+;; go-eldoc
+(require 'go-eldoc)
 
 ;; Company mode
 (require 'company)
-;; (require 'company-go)
+(require 'company-go)
 (setq company-tooltip-limit 20)                      ; bigger popup window
 (setq company-idle-delay .3)                         ; decrease autocomplete delay
 (setq company-echo-delay 0)                          ; remove annoying blinking
@@ -213,6 +208,11 @@
 (add-hook 'scss-mode-hook (lambda() (flymake-mode t)))
 
 ;; Golang
+
+;; Set the environment correctly on Mac.
+(when (system-is-mac)
+  (exec-path-from-shell-copy-env "GOPATH")
+  (exec-path-from-shell-initialize))
 
 ;; Loads go-oracle. Unavaible in MELPA.
 ;; (load-file "path/to/oracle.el")
