@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2017-02-14 10:32:07 jake>
+; Time-stamp: <2018-05-11 10:31:32 jake>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -36,19 +36,25 @@
    ac-php
    ac-php-core
    auto-complete
+   bazel-mode
    company
    company-go
    dash
+   ess
    exec-path-from-shell
    f
+   flymake-go
+   go-autocomplete
    go-eldoc
    go-mode
    ivy
    js2-mode
    js2-refactor
    markdown-mode
+   matlab-mode
    multiple-cursors
    mustache-mode
+   neotree
    php-mode
    popup
    s
@@ -58,6 +64,7 @@
    skewer-mode
    tern
    xcscope
+   yaml-mode
    yasnippet))
 
 ;; Allow emacsclient to connect.
@@ -67,6 +74,7 @@
 ;; Load machine-specific customization.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (load-file "~/.emacs.d/machine.el")
+(load-file "~/.emacs.d/go-guru.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deviation from default behaviors
@@ -86,7 +94,7 @@
 (setq-default fill-column 80)
 (column-number-mode t)
 
-;; Tabbing behavior (prefer spaces, indent 4). Highlight bad whitespace.
+;; Tabbing behavior (prefer spaces, indent 2). Highlight bad whitespace.
 (setq-default c-basic-offset 2)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
@@ -155,12 +163,12 @@
 (require 'go-eldoc)
 
 ;; Company mode
-(require 'company)
-(require 'company-go)
-(setq company-tooltip-limit 20)                      ; bigger popup window
-(setq company-idle-delay .3)                         ; decrease autocomplete delay
-(setq company-echo-delay 0)                          ; remove annoying blinking
-(setq company-begin-commands '(self-insert-command)) ; autocomplete only after typing
+;; (require 'company)
+;; (require 'company-go)
+;; (setq company-tooltip-limit 20)                      ; bigger popup window
+;; (setq company-idle-delay .3)                         ; decrease autocomplete delay
+;; (setq company-echo-delay 0)                          ; remove annoying blinking
+;; (setq company-begin-commands '(self-insert-command)) ; autocomplete only after typing
 
 ;; PHP mode.
 (require 'cl)
@@ -207,6 +215,27 @@
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
 (add-hook 'scss-mode-hook (lambda() (flymake-mode t)))
 
+;; YAML mode
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+(add-to-list 'auto-mode-alist '("\\.playbook\\'" . yaml-mode))
+
+;; Bazel
+(add-hook 'bazel-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook #'bazel-format nil t)
+            (local-set-key (kbd "M-[") 'previous-error)
+            (local-set-key (kbd "M-]") 'next-error)))
+
+;; cc-mode
+(add-hook 'c++-mode-hook
+          (lambda()
+            (local-set-key (kbd "M-p") 'compile)
+            (local-set-key (kbd "M-[") 'previous-error)
+            (local-set-key (kbd "M-]") 'next-error)
+            (setq compile-command "bazel build -c dbg --cxxopt=--std=c++14 ...:all")))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;; Golang
 
 ;; Set the environment correctly on Mac.
@@ -214,25 +243,42 @@
   (exec-path-from-shell-copy-env "GOPATH")
   (exec-path-from-shell-initialize))
 
-;; Loads go-oracle. Unavaible in MELPA.
-;; (load-file "path/to/oracle.el")
-
-;; Sets up formatting on save and compile, customizes the compile command.
 (defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
+  (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
+  (if (not (string-match "go" compile-command))   ; set compile command default
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v ./... && go vet"))
+
+  ;; guru settings
+  (go-guru-hl-identifier-mode)                    ; highlight identifiers
+
+  ;; Key bindings specific to go-mode
+  (local-set-key (kbd "M-.") 'godef-jump)         ; Go to definition
+  (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
+  (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
+  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+  (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
+  (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
+
   (go-eldoc-setup)
 
-  (set (make-local-variable 'company-backends) '(company-go))
-  (company-mode)
+  (yas-minor-mode)
 
-  ;; Use go-imports as a replacement for go-fmt
-  (setq gofmt-command "goimports")
+  ;; Split window vertically by default.
+  (setq split-width-threshold nil)
 
-  ;; Call Gofmt before saving
-  (add-hook 'before-save-hook 'gofmt-before-save)
-  ;; Customize compile command to run go build
-  (setq compile-command "go generate && go build -v && go test -v && go vet"))
+  ;; Misc go stuff
+  (auto-complete-mode 1))                         ; Enable auto-complete mode
 
 (add-hook 'go-mode-hook 'my-go-mode-hook)
+
+;; Ensure the go specific autocomplete is active in go-mode.
+(with-eval-after-load 'go-mode
+   (require 'go-autocomplete))
+
+;; If the go-guru.el file is in the load path, this will load it.
+(require 'go-guru)
 
 ;; Find files quickly across my whole system.
 (global-set-key (kbd "C-x f") 'locate)
@@ -267,3 +313,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
