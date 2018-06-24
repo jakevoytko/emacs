@@ -1,6 +1,6 @@
 ; init.el
 ; Author: Jake Voytko
-; Time-stamp: <2018-05-11 10:31:32 jake>
+; Time-stamp: <2018-06-24 09:59:53 jake>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; What system are we on?
@@ -301,12 +301,34 @@
            (set-window-start w1 s2)
            (set-window-start w2 s1)))))
 (global-set-key (kbd "C-c \\") 'swap-windows)
+
+;; Bind window switching commands for 2 and 3 vertical buffer windows
+(defun jv-first-window ()
+  (interactive)
+  (select-window (frame-first-window)))
+(defun jv-second-window ()
+  (interactive)
+  (select-window (window-next-sibling (frame-first-window))))
+(defun jv-third-window ()
+  (interactive)
+  (select-window
+   (window-next-sibling (window-next-sibling (frame-first-window)))))
+(global-set-key (kbd "C-c 7") 'jv-first-window)
+(global-set-key (kbd "C-c 8") 'jv-second-window)
+(global-set-key (kbd "C-c 9") 'jv-third-window)
+
+;; Don't split vertically
+(setq-default split-height-threshold nil)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/todo.org"))))
+ '(org-agenda-files (quote ("~/todo.org")))
+ '(package-selected-packages
+   (quote
+    (yaml-mode tern scss-mode scala-mode neotree mustache-mode matlab-mode markdown-mode js2-refactor ivy go-eldoc go-autocomplete flymake-go exec-path-from-shell ess company-go company bazel-mode ac-php ac-js2))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
